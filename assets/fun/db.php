@@ -2,7 +2,7 @@
 
     class DB{
                 private static function connect() {
-                $pdo = new PDO('mysql:host=127.0.0.1;dbname=torinkdb;charset=utf8', 'root', '');
+                $pdo = new PDO('mysql:host=eu-cdbr-west-03.cleardb.net;dbname=heroku_6f99952be751037;charset=utf8', 'bf94901823e79d', '1ea1dacc');
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 return $pdo;
         }
