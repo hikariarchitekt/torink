@@ -81,7 +81,7 @@
   <body class="text-center">
     
 <main class="form-signin w-100 m-auto">
-  <form action="assets\fun\logincorrect.php" method="post">
+  <form action="\assets\fun\logincorrect.php" method="post">
     <img class="mb-4" src="/assets/brand/logo.svg" alt="" width="100" height="80">
     <h1 class="h3 mb-3 fw-normal">Podaj dane:</h1>
 
