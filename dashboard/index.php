@@ -115,4 +115,10 @@
   </body>
 </html>
     
-<?php }?>
+<?php }
+else
+      echo "Błąd"
+
+
+
+?>
