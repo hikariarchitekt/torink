@@ -1,9 +1,9 @@
 <?php
-  include '..\assets\fun\db.php';
-  include '..\assets\fun\dbd.php';
-  include '..\navbars\header.php';
-  include '..\navbars\head.php';
-  include '..\navbars\menu.php';
+  require '..\assets\fun\db.php';
+  require '..\assets\fun\dbd.php';
+  require '..\navbars\header.php';
+  require '..\navbars\head.php';
+  require '..\navbars\menu.php';
   $myid = $_SESSION['userId'];
   $myname = $_SESSION['username'];
   $my2name = $_SESSION['user2name'];
