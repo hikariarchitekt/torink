@@ -1,5 +1,5 @@
 {
     "require": {
-        "assets/fun": "1.0.*"
+        "assets/fun": "main"
     }
 }
