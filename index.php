@@ -1,7 +1,7 @@
 <!doctype html>
 <?php
-  include '\assets\fun\db.php';
-  include '\assets\fun\dbd.php';
+  require_once 'assets\fun\db.php';
+  require_once 'assets\fun\dbd.php';
   ?>
 
   <head>
