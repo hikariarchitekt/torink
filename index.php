@@ -1,7 +1,7 @@
 <!doctype html>
 <?php
-  include(__DIR__ . 'assets\fun\db.php');
-  include(__DIR__ . 'assets\fun\dbd.php');
+  include_path=".:/assets/fun/db.php";
+  include_path=".:assets/fun/dbd.php";
   ?>
 
   <head>
