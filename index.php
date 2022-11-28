@@ -1,7 +1,7 @@
 <!doctype html>
 <?php
-  require __DIR__ . "assets/fun/db.php";
-  require __DIR__ . "assets/fun/dbd.php";
+  require "assets/fun/db.php";
+  require "assets/fun/dbd.php";
   ?>
 
   <head>

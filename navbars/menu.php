@@ -42,13 +42,7 @@ $myrole = DB::query('SELECT role_name FROM roles WHERE role_id=:roleid', array('
               <span data-feather="users" class="align-text-bottom"></span>
               Pracownicy
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-              Raporty
-            </a>
-          </li>     
+          </li>   
           <li class="nav-item">
             <a class="nav-link" href="../workers/settings.php">
               <span data-feather="settings" class="align-text-bottom"></span>
