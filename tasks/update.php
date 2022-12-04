@@ -5,6 +5,7 @@
   include '..\navbars\head.php';
   include '..\navbars\menu.php';
   $myid = $_SESSION['userId'];
+  $role_id = $_SESSION['role'];
    if(isset($_SESSION['userId'])){?>
 
     <title>Zlecenie</title>
@@ -16,7 +17,7 @@
       </div>
       <?php
 
-      if($myid==1 || $role_id==6){
+      if($myid==1 || $role_id==3 || $role_id==6){
        $tid = $_POST['tid'];
        $ex = DB::query('SELECT name, task_id, required_task.equipment_id FROM equipment, required_task WHERE required_task.task_id=:TID AND equipment.equipment_id=required_task.equipment_id', array(':TID'=>$tid));   
        $task= DB::query('SELECT * FROM tasks, area, types, task_state WHERE tasks.type_id=types.type_id AND tasks.area_id=area.area_id AND tasks.task_status_id=task_state.task_state_id AND tasks.task_id=:TID', array(':TID'=>$tid)); 

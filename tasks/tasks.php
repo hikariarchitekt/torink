@@ -18,17 +18,34 @@
       </div>
       <div class="col-md-7 col-lg-8">
         <?php 
-    if($role_id==1 || $role_id==6){?>
-    <div class="d-flex gap-5 justify-content-center">
-      <div class="col-4 col-sm-2 themed-grid-col"><a href="addtask.php"><button type="button" class="btn btn-success">Dodaj zlecenie</button></a></div>
-      <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
-    </div>
-    <?php }
-    else{ ?>
-        <div class="d-flex gap-5 justify-content-center">
-      <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
-    </div>
-   <?php }?>
+    if($role_id==1 || $role_id==6){
+        echo 
+        '<div class="d-flex gap-5 justify-content-center">
+          <div class="col-4 col-sm-2 themed-grid-col"><a href="addtask.php"><button type="button" class="btn btn-success">Dodaj zlecenie</button></a></div>
+          <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
+        </div>';
+    }
+    elseif ($role_id==3) {
+          echo 
+            '<div class="d-flex gap-5 justify-content-center">
+              <div class="col-4 col-sm-2 themed-grid-col"><a href="mytask.php"><button type="button" class="btn btn-success">Przypisane zlecenia</button></a></div>
+              <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
+            </div>';
+    }
+   elseif ($role_id==5) {
+       echo
+        '<div class="d-flex gap-5 justify-content-center">
+          <div class="col-4 col-sm-2 themed-grid-col"><a href="mytask.php"><button type="button" class="btn btn-success">Przypisane zlecenia</button></a></div>
+        </div>';
+    }
+    else{
+        echo
+        '
+           <div class="d-flex gap-5 justify-content-center">
+          <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
+        </div>';
+      }
+      ?>
    
    <h1 class="h4">Informacje ogólne</h1>
     <table class="table table-hover">

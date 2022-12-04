@@ -42,6 +42,7 @@
         <form action="update.php" method="post">
         <input type="hidden" name="tid" value='.$tid.'" />
         <input type="submit" class="btn btn-secondary btn-sm" data-bs-toggle="modal" name="update-submit" value="Zaplanowano na"/>
+        </form>
         </th>
         <th scope="col">Czas rozpoczęcia</th>
         <th scope="col">Czas zakończenia</th>
@@ -73,7 +74,9 @@
       </tr>
       <tr class="table-primary">
       <th scope="col">'.$t['client_name'].'</th>
-      <th scope="col">'.$t['client_phone'].'</th>
+      <th scope="col">
+      <a class="nav-link" href="tel:+48'.$t['client_phone'].'">'.$t['client_phone'].'</a>
+      </th>
       <th scope="col">'.$t['description'].'</th>
       </tr>
       <tr class="table-secondary">
