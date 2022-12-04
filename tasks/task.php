@@ -38,9 +38,11 @@
         Status
         </button></th>
         <th scope="col">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#dateupdate">
-        Zaplanowano na
-        </button></th>
+
+        <form action="update.php" method="post">
+        <input type="hidden" name="tid" value='.$tid.'" />
+        <input type="submit" class="btn btn-secondary btn-sm" data-bs-toggle="modal" name="update-submit" value="Zaplanowano na"/>
+        </th>
         <th scope="col">Czas rozpoczęcia</th>
         <th scope="col">Czas zakończenia</th>
 
