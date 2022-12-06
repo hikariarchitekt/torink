@@ -10,6 +10,21 @@
   $role_id = $_SESSION['role'];
   if(isset($_SESSION['userId'])){ ?>
 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+ <script>
+$(document).ready(function() {
+    $("#sts").change(function () {
+        $("#option_select")
+            .find("option")
+            .show()
+            .not("option[value*='" + this.value + "']").hide();
+       
+        $("#option_select").val(
+            $("#option_select").find("option:visible:first").val());
+        
+    }).change();
+});
+ </script>
     <title>Zlecenie</title>
   </body>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -18,9 +33,44 @@
     if(isset($_POST['task-find'])||($_GET['id'])){  
       $tid = $_GET['id'];
       $task = DB::query('SELECT * FROM tasks, area, types, task_state WHERE task_id=:tid AND area.area_id=tasks.area_id AND types.type_id=tasks.type_id AND task_state.task_state_id=tasks.task_status_id;', array(':tid'=>$tid));
+      $taskstatus = DB::query('SELECT task_status_id FROM tasks WHERE task_id=:tid;', array(':tid'=>$tid))[0]['task_status_id'];
+        echo '<h1 class="h1">Nr zlecenia: '.$tid.'</h1></div>';
+      if($role_id==5 && ($taskstatus==2 || $taskstatus==3)){
+        echo 
+        '<div class="d-flex gap-5 justify-content-center">
+        <form action="../assets/fun/updatestatusbyworker.php" method="post">
+        <input type="hidden" name="tid" value="'.$tid.'" />
+        <input type="hidden" name="status" value="4" />
+        <input type="submit" class="btn btn-primary btn-lg" name="start-submit" value="PODEJMIJ ZLECENIE"/>
+        </form></div>';
+    }
 
-      echo '<h1 class="h1">Nr zlecenia: '.$tid.'</h1></div>';
-      
+    elseif($role_id==5 && ($taskstatus==4)){
+        echo 
+        '<div class="d-flex gap-5 justify-content-center">
+        <form action="../assets/fun/updatestatusbyworker.php" method="post">
+        <input type="hidden" name="tid" value="'.$tid.'" />
+        <input type="hidden" name="status" value="5" />
+        <input type="submit" class="btn btn-info btn-lg" name="onmyway-submit" value="W DRODZE"/>
+        </form></div>';
+    }
+    elseif($role_id==5 && ($taskstatus==5)){
+        echo 
+        '<div class="d-flex gap-5 justify-content-center">
+        <form action="../assets/fun/updatestatusbyworker.php" method="post">
+        <input type="hidden" name="tid" value="'.$tid.'" />
+        <input type="hidden" name="status" value="6" />
+        <input type="submit" class="btn btn-success btn-lg" name="install-submit" value="START"/>
+        </form></div>';
+    }
+        elseif($role_id==5 && ($taskstatus==6)){
+        echo 
+        '<div class="d-flex gap-5 justify-content-center">
+        <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#odpisz">
+           ODPISZ ZLECENIE
+        </button></div><br>';
+    }
+
       foreach ($task as $t) {
         if($t['assigned_to'])
         $technik = DB::query("SELECT CONCAT(name,' ',second_name) AS fname FROM users WHERE user_id=:uid;", array(':uid'=>$t['assigned_to']))[0]['fname'];
@@ -30,32 +80,56 @@
         $dyspozytor = DB::query("SELECT CONCAT(name,' ',second_name) AS fname FROM users WHERE user_id=:uid;", array(':uid'=>$t['dispatcher']))[0]['fname'];
         else
         $dyspozytor = NULL;
-        echo '<table class="table table-lg"><tr class="table-secondary"> 
+
+        echo 
+        '<table class="table table-lg">
+        <tr class="table-secondary"> 
         <th scope="col">Rejon</th>
         <th scope="col">Typ</th>
-        <th scope="col">
-        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#statuschange">
-        Status
-        </button></th>
-        <th scope="col">
-
-        <form action="update.php" method="post">
-        <input type="hidden" name="tid" value='.$tid.'" />
-        <input type="submit" class="btn btn-secondary btn-sm" data-bs-toggle="modal" name="update-submit" value="Zaplanowano na"/>
-        </form>
-        </th>
-        <th scope="col">Czas rozpoczęcia</th>
-        <th scope="col">Czas zakończenia</th>
-
-      </tr>
+        <th scope="col">';
+            if($role_id==3 || $role_id==1){
+            echo'
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#statuschange">
+            Status
+            </button></th>';
+            }
+            else{
+            echo'
+            Status</th>';
+            }
+       echo
+        '</tr>
       <tr class="table-primary">                
         <th scope="col">'.$t['area_name'].'</th>
         <th scope="col">'.$t['name'].'</th>
         <th scope="col">'.$t['task_state_name'].'</th>
+      </tr>
+
+      <tr class="table-secondary">
+        <th scope="col">';
+
+        if($role_id==3 || $role_id==1){
+            echo'
+                <form action="update.php" method="post">
+                <input type="hidden" name="tid" value='.$tid.'" />
+                <input type="submit" class="btn btn-secondary btn-sm" data-bs-toggle="modal" name="update-submit" value="Zaplanowano na"/>
+                </form>';
+            }
+            else{
+            echo'
+            Zaplanowano na';
+            }
+       echo
+        '</th>
+        <th scope="col">Czas rozpoczęcia</th>
+        <th scope="col">Czas zakończenia</th>
+      </tr>
+      <tr class="table-primary">                
         <th scope="col">'.$t['time_set'].'</th>
         <th scope="col">'.$t['time_start'].'</th>
         <th scope="col">'.$t['time_end'].'</th>
       </tr>
+
       
       <tr class="table-secondary">
       <th scope="col">Miejscowość</th>
@@ -80,10 +154,18 @@
       <th scope="col">'.$t['description'].'</th>
       </tr>
       <tr class="table-secondary">
-      <th scope="col">
-      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#technik">
-      Technik
-      </button></th>
+      <th scope="col">';
+          if($role_id==3 || $role_id==1){
+            echo'
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#technik">
+                  Technik
+                  </button>';
+           }
+            else{
+               echo'Technik';
+               }
+       echo
+      '</th>
       <th scope="col">Dyspozytor</th>
       </tr>
       <tr class="table-primary">
@@ -93,7 +175,10 @@
       </table>
       ';
       }
+
+
         ?>
+
       </div>
 
           <div class="modal fade" id="statuschange" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
@@ -140,7 +225,7 @@
               $tk = DB::query('SELECT * FROM users WHERE role_id=5');
               $obszar = DB::query('SELECT area_id FROM tasks WHERE task_id=:tid', array(':tid'=> $tid))[0]['area_id'];
               ?>
-              
+      
               <select class="form-select" name="tech">
                 <option value="">Wybierz...</option>
                  <?php foreach ($tk as $t) {
@@ -161,6 +246,66 @@
               </div>
             </div>
       </div>
+
+<div class="modal fade" id="odpisz" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="odpisz">Odpisz zlecenie</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <?php
+              echo '<form class="needs-validation" action="../assets/fun/odpisz.php" method="post">
+              <input type="hidden" name="taskid" value="'.$tid.'"/>';
+              ?>
+              <label for="sts">Status:</label>
+             <select class="form-select" name="sts" id="sts">
+                <option value="">Wybierz...</option>
+                <option value="success">SKUTECZNIE</option>
+                <option value="fail">NIESKUTECZNIE</option>
+                <option value="newdate">ZMIANA TERMINU</option>
+            </select>
+            <br>
+               <select  class="form-select" name="option_select" id="option_select">
+                <option value="">Wybierz...</option>
+                <!--Below shows when '1 column' is selected is hidden otherwise-->
+                <option value="success_air">Standard Napowietrzny</option>
+                <option value="success_ground">Standard Doziemny</option>
+    
+                <!--Below shows when '2 column' is selected is hidden otherwise-->
+                <option value="fail_resign">Rezygnacja klienta</option> 
+                <option value="fail_noposs">Brak możliwości</option>
+                <option value="fail_other">Inne</option>
+    
+                <!--Below shows when '3 column' is selected is hidden otherwise-->
+                <option value="newdate_client">Na prośbę klienta</option>
+                <option value="newdate_weather">Złe warunki atmosferyczne</option>
+                <option value="newdate_other">Inne</option>
+            </select>
+
+              <label for="opis">Odpis dla dyspozytora:</label>
+              <div class="input-group">
+                  <textarea class="form-control" aria-label="With textarea" name="opis"></textarea>
+              </div>
+
+            </div>
+                
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                  <button type="submit" class="btn btn-primary" name="worker-submit">Zatwierdź</button></form>
+                </div>
+              </div>
+            </div>
+      </div>
+
+
+
+
+
+
+
+
 
 
       <?php } 

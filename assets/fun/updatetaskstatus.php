@@ -15,7 +15,7 @@ if(isset($_POST['status-submit'])){
     else {
             DB::query('UPDATE tasks SET task_status_id=:ts WHERE task_id=:tid', array(':tid'=>$tid, ':ts'=>$statetask));
             if($statetask==1){
-                DB::query('UPDATE tasks SET dispatcher=NULL WHERE task_id=:tid', array(':tid'=>$tid));
+                DB::query('UPDATE tasks SET dispatcher=NULL, assigned_to=NULL WHERE task_id=:tid', array(':tid'=>$tid));
             }
             elseif($statetask==2 && $workerrole==3){
                 DB::query('UPDATE tasks SET dispatcher=:d WHERE task_id=:tid', array(':tid'=>$tid, ':d'=>$pracownik));
