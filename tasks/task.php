@@ -175,10 +175,42 @@ $(document).ready(function() {
       </table>
       ';
       }
+       if(($role_id==5 || $role_id==3) && ($taskstatus==7 || $taskstatus==8 || $taskstatus==9)){
+           $task_desc = DB::query('SELECT * FROM tech_task_dsc, task_state, users WHERE tech_task_dsc.task_id=:tid AND task_state.task_state_id=tech_task_dsc.task_status_id AND users.user_id=tech_task_dsc.tech_id;', array(':tid'=>$tid));
+            echo'
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1>Odpis</h1>';
+        if($role_id==5){
+          echo
+        '<div class="d-flex gap-5 justify-content-center">
+        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#odpisz">
+           EDYTUJ ODPIS
+        </button>
+        </div>';}
+        echo '
+        </div>';
+         foreach ($task_desc as $t) {
+             echo '<table class="table table-lg"><thead>
+                      <tr>
+                        <th>STATUS</th>
+                        <th>OPCJA</th>
+                        <th>ODPIS</th>
+                        <th>TECHNIK</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>'.$t['task_state_name'].'</td>
+                        <td>'.$t['status_option'].'</td>
+                        <td>'.$t['task_desc'].'</td>
+                        <td>'.$t['name'].' '.$t['second_name'].'</td>
+                      </tr></tbody></table>';
 
+
+         }
+           }
 
         ?>
-
       </div>
 
           <div class="modal fade" id="statuschange" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
@@ -257,54 +289,49 @@ $(document).ready(function() {
                 <div class="modal-body">
                 <?php
               echo '<form class="needs-validation" action="../assets/fun/odpisz.php" method="post">
-              <input type="hidden" name="taskid" value="'.$tid.'"/>';
+              <input type="hidden" name="taskid" value="'.$tid.'"/>
+              <input type="hidden" name="techid" value="'.$myid.'"/>';
+               
               ?>
               <label for="sts">Status:</label>
-             <select class="form-select" name="sts" id="sts">
+             <select class="form-select" name="sts" id="sts" required>
                 <option value="">Wybierz...</option>
-                <option value="success">SKUTECZNIE</option>
-                <option value="fail">NIESKUTECZNIE</option>
-                <option value="newdate">ZMIANA TERMINU</option>
+                <option value="7">SKUTECZNIE</option>
+                <option value="8">NIESKUTECZNIE</option>
+                <option value="9">ZMIANA TERMINU</option>
             </select>
             <br>
-               <select  class="form-select" name="option_select" id="option_select">
+               <select  class="form-select" name="option_select" id="option_select" required>
                 <option value="">Wybierz...</option>
                 <!--Below shows when '1 column' is selected is hidden otherwise-->
-                <option value="success_air">Standard Napowietrzny</option>
-                <option value="success_ground">Standard Doziemny</option>
+                <option value="7_Standard Napowietrzny">Standard Napowietrzny</option>
+                <option value="7_Standard Doziemny">Standard Doziemny</option>
     
                 <!--Below shows when '2 column' is selected is hidden otherwise-->
-                <option value="fail_resign">Rezygnacja klienta</option> 
-                <option value="fail_noposs">Brak możliwości</option>
-                <option value="fail_other">Inne</option>
+                <option value="8_Rezygnacja klienta">Rezygnacja klienta</option> 
+                <option value="8_Brak możliwości">Brak możliwości</option>
+                <option value="8_>Inne">Inne</option>
     
                 <!--Below shows when '3 column' is selected is hidden otherwise-->
-                <option value="newdate_client">Na prośbę klienta</option>
-                <option value="newdate_weather">Złe warunki atmosferyczne</option>
-                <option value="newdate_other">Inne</option>
+                <option value="9_Na prośbę klienta">Na prośbę klienta</option>
+                <option value="9_Złe warunki atmosferyczne">Złe warunki atmosferyczne</option>
+                <option value="9_other">Inne</option>
             </select>
 
               <label for="opis">Odpis dla dyspozytora:</label>
               <div class="input-group">
-                  <textarea class="form-control" aria-label="With textarea" name="opis"></textarea>
+                  <textarea class="form-control" aria-label="With textarea" name="opis" required></textarea>
               </div>
 
             </div>
                 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                  <button type="submit" class="btn btn-primary" name="worker-submit">Zatwierdź</button></form>
+                  <button type="submit" class="btn btn-primary" name="odpisz-submit">Zatwierdź</button></form>
                 </div>
               </div>
             </div>
       </div>
-
-
-
-
-
-
-
 
 
 
