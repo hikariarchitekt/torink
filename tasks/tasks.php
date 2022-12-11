@@ -21,8 +21,9 @@
     if($role_id==1 || $role_id==6){
         echo 
         '<div class="d-flex gap-5 justify-content-center">
-          <div class="col-4 col-sm-2 themed-grid-col"><a href="addtask.php"><button type="button" class="btn btn-success">Dodaj zlecenie</button></a></div>
-          <div class="col-4 col-sm-2 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
+          <div class="col-4 col-sm-3 themed-grid-col"><a href="addtask.php"><button type="button" class="btn btn-success">Dodaj zlecenie</button></a></div>
+          <div class="col-4 col-sm-3 themed-grid-col"><a href="showtasks.php"><button type="button" class="btn btn-primary">Wyświetl zlecenia</button></a></div>
+           <div class="col-4 col-sm-3 themed-grid-col"><a href="findarchive.php"><button type="button" class="btn btn-info">Zarchiwizowane zlecenia</button></a></div>
         </div>';
     }
     elseif ($role_id==3) {
