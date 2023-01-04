@@ -3,11 +3,9 @@
     "",
     "\\assets",
     "\\assets\\fun",
-    "\\dashboard",
     "\\navbars",
-    "\\tasks",
     "\\workers"
   ],
-  "SelectedNode": "\\assets\\fun\\odpisz.php",
+  "SelectedNode": "\\navbars",
   "PreviewInSolutionExplorer": false
 }
